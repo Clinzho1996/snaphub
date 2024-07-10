@@ -2,8 +2,7 @@ import { View, Text, Image, TextInput, Pressable } from "react-native";
 import React, { useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import * as ImagePicker from "expo-image-picker";
-import { upload } from "cloudinary-react-native";
-import { cld } from "@/lib/cloudinary";
+import { uploadImage } from "@/lib/cloudinary";
 
 const Create = () => {
   const [caption, setCaption] = useState("");
@@ -29,31 +28,13 @@ const Create = () => {
     }
   };
 
-  const uploadImage = async () => {
-    // upload to cloudinary
+  const createPost = async () => {
     if (!image) {
       return;
     }
-
-    const options = {
-      upload_preset: "default",
-      unsigned: true,
-    };
-
-    await upload(cld, {
-      file: image,
-      options: options,
-      callback: (error: any, response: any) => {
-        //.. handle response
-        console.log("error", error);
-        console.log(response);
-      },
-    });
-  };
-
-  const createPost = async () => {
     // save post in database
-    await uploadImage();
+    const response = await uploadImage(image);
+    console.log("image id:", response?.public_id);
   };
 
   return (
@@ -81,7 +62,7 @@ const Create = () => {
 
       <Pressable
         className="bg-blue-500 w-full p-3 items-center rounded-md absolute bottom-5"
-        onPress={uploadImage}
+        onPress={createPost}
       >
         <Text className="text-white font-semibold">Share</Text>
       </Pressable>
