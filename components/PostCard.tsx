@@ -1,4 +1,10 @@
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  useWindowDimensions,
+} from "react-native";
 import React, { useState } from "react";
 import {
   AntDesign,
@@ -7,26 +13,42 @@ import {
   FontAwesome6,
   Ionicons,
 } from "@expo/vector-icons";
+import { Cloudinary } from "@cloudinary/url-gen";
+import { AdvancedImage } from "cloudinary-react-native";
+// Import required actions and qualifiers.
+import { thumbnail } from "@cloudinary/url-gen/actions/resize";
+import { byRadius } from "@cloudinary/url-gen/actions/roundCorners";
+import { focusOn } from "@cloudinary/url-gen/qualifiers/gravity";
+import { FocusOn } from "@cloudinary/url-gen/qualifiers/focusOn";
+import { cld } from "@/lib/cloudinary";
 
 const PostCard = ({ post }) => {
   const [saved, setSaved] = useState(false);
   const [liked, setLiked] = useState(false);
+  const { width } = useWindowDimensions();
 
   const handleSave = () => {
-    setSaved(true);
+    setSaved(!saved);
   };
 
   const handleLike = () => {
-    setLiked(true);
+    setLiked(!liked);
   };
 
+  const myImage = cld.image(post.image);
+  myImage.resize(thumbnail().width(width).height(250));
+
+  const avatar = cld.image(post.user.avatar_url);
+  avatar.resize(
+    thumbnail().width(48).height(48).gravity(focusOn(FocusOn.face()))
+  );
   return (
     <View>
       {/* Header */}
       <View className="p-4 flex flex-row justify-between items-center">
         <View className="flex flex-row justify-start items-center gap-3">
-          <Image
-            source={{ uri: post.user.image_url }}
+          <AdvancedImage
+            cldImg={avatar}
             className="w-12 aspect-square rounded-full"
           />
           <Text className="text-black font-bold">{post.user.username}</Text>
@@ -37,11 +59,13 @@ const PostCard = ({ post }) => {
           </TouchableOpacity>
         </View>
       </View>
-      <Image
+      {/* content */}
+      <AdvancedImage cldImg={myImage} className="w-full aspect-[4/3]" />
+      {/* <Image
         source={{ uri: post.image_url }}
         alt="post"
         className="w-full aspect-[4/3]"
-      />
+      /> */}
       <View className="flex flex-row justify-between items-center p-5">
         <View className="flex flex-row justify-start items-center gap-5">
           <TouchableOpacity onPress={handleLike}>

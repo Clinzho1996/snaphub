@@ -1,7 +1,7 @@
 import React from "react";
 import { Tabs } from "expo-router";
 import Entypo from "@expo/vector-icons/Entypo";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, Octicons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 
 const TabsLayout = () => {
@@ -15,6 +15,15 @@ const TabsLayout = () => {
           headerTitle: "For You",
           tabBarIcon: ({ color }) => (
             <Entypo name="home" size={24} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="search"
+        options={{
+          headerTitle: "Search",
+          tabBarIcon: ({ color }) => (
+            <Octicons name="search" size={24} color={color} />
           ),
         }}
       />
