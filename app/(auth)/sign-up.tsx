@@ -22,14 +22,17 @@ AppState.addEventListener("change", (state) => {
   }
 });
 
-export default function Auth() {
+export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  async function signInWithEmail() {
+  async function signUpWithEmail() {
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({
+    const {
+      data: { session },
+      error,
+    } = await supabase.auth.signUp({
       email: email,
       password: password,
     });
@@ -39,6 +42,8 @@ export default function Auth() {
     } else {
       router.push("/(tabs)");
     }
+    if (!session)
+      Alert.alert("Please check your inbox for email verification!");
     setLoading(false);
   }
 
@@ -74,21 +79,21 @@ export default function Auth() {
           <ActivityIndicator color="blue" size={30} />
         ) : (
           <TouchableOpacity
-            onPress={() => signInWithEmail()}
+            onPress={() => signUpWithEmail()}
             className="bg-blue-500 w-full p-3 items-center rounded-md"
           >
-            <Text className="text-white font-bold">Sign In</Text>
+            <Text className="text-white font-bold">Sign Up</Text>
           </TouchableOpacity>
         )}
       </View>
       <View className=" mt-3 mb-3 justify-center items-center flex-row flex">
         <Text>
-          Don't have an account?{" "}
+          Already have an account?{" "}
           <TouchableOpacity
             className="mt-[-3px]"
-            onPress={() => router.push("/(auth)/sign-up")}
+            onPress={() => router.push("/(auth)")}
           >
-            <Text className="text-black font-bold">Sign Up</Text>
+            <Text className="text-black font-bold">Log in</Text>
           </TouchableOpacity>
         </Text>
       </View>
@@ -106,7 +111,10 @@ export default function Auth() {
         />
       </View>
       <View style={styles.verticallySpaced} className="mt-8">
-        <TouchableOpacity className="bg-[#1877F2] w-full p-3 items-center rounded-md">
+        <TouchableOpacity
+          disabled
+          className="bg-[#1877F2] w-full p-3 items-center rounded-md"
+        >
           <Text className="text-white font-bold">Sign Up with Facebook</Text>
         </TouchableOpacity>
       </View>

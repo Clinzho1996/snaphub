@@ -22,7 +22,7 @@ import { focusOn } from "@cloudinary/url-gen/qualifiers/gravity";
 import { FocusOn } from "@cloudinary/url-gen/qualifiers/focusOn";
 import { cld } from "@/lib/cloudinary";
 
-const PostCard = ({ post }) => {
+const PostCard = ({ post }: { post: any }) => {
   const [saved, setSaved] = useState(false);
   const [liked, setLiked] = useState(false);
   const { width } = useWindowDimensions();
@@ -61,11 +61,6 @@ const PostCard = ({ post }) => {
       </View>
       {/* content */}
       <AdvancedImage cldImg={myImage} className="w-full aspect-[4/3]" />
-      {/* <Image
-        source={{ uri: post.image_url }}
-        alt="post"
-        className="w-full aspect-[4/3]"
-      /> */}
       <View className="flex flex-row justify-between items-center p-5">
         <View className="flex flex-row justify-start items-center gap-5">
           <TouchableOpacity onPress={handleLike}>

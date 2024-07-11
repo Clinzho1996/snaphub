@@ -39,7 +39,7 @@ const TabsLayout = () => {
       <Tabs.Screen
         name="profile"
         options={{
-          headerTitle: "My Profile",
+          headerTitle: "Edit Profile",
           tabBarIcon: ({ color }) => (
             <FontAwesome5 name="user" size={24} color={color} />
           ),
