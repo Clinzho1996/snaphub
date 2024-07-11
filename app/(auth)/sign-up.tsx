@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import { supabase } from "@/lib/supabase";
 import { router } from "expo-router";
+import { FontAwesome } from "@expo/vector-icons";
 
 AppState.addEventListener("change", (state) => {
   if (state === "active") {
@@ -39,6 +40,7 @@ export default function SignUp() {
 
     if (error) {
       Alert.alert(error.message);
+      console.log(error);
     } else {
       router.push("/(tabs)");
     }
@@ -48,12 +50,9 @@ export default function SignUp() {
   }
 
   return (
-    <View
-      style={styles.container}
-      className="h-full flex-1 justify-center bg-white"
-    >
-      <Text className="text-3xl font-extrabold text-center">
-        Welcome to SnapHub
+    <View className="h-full flex-1 justify-center bg-white px-5">
+      <Text className="text-3xl font-extrabold text-center font-mono">
+        SnapHub
       </Text>
       <View style={[styles.verticallySpaced]}>
         <TextInput
@@ -61,7 +60,7 @@ export default function SignUp() {
           value={email}
           placeholder="email@address.com"
           autoCapitalize={"none"}
-          className="p-3 w-full bg-[#EEEEEE] mt-5 rounded-sm border border-[#c5c5c5]"
+          className="p-3 w-full bg-[#EEEEEE] mt-5 rounded-md border border-[#c5c5c5]"
         />
       </View>
       <View style={styles.verticallySpaced}>
@@ -71,7 +70,7 @@ export default function SignUp() {
           secureTextEntry={true}
           placeholder="Password"
           autoCapitalize={"none"}
-          className="p-3 w-full bg-[#EEEEEE] mt-5 rounded-sm border border-[#c5c5c5]"
+          className="p-3 w-full bg-[#EEEEEE] mt-5 rounded-md border border-[#c5c5c5]"
         />
       </View>
       <View style={[styles.verticallySpaced, styles.mt20]}>
@@ -111,11 +110,11 @@ export default function SignUp() {
         />
       </View>
       <View style={styles.verticallySpaced} className="mt-8">
-        <TouchableOpacity
-          disabled
-          className="bg-[#1877F2] w-full p-3 items-center rounded-md"
-        >
-          <Text className="text-white font-bold">Sign Up with Facebook</Text>
+        <TouchableOpacity className="bg-[#1877F2] w-full pb-3 items-center rounded-md flex flex-row justify-center pt-3">
+          <FontAwesome name="facebook-f" size={18} color="white" />
+          <Text className="text-white font-bold pl-3">
+            Sign Up with Facebook
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
