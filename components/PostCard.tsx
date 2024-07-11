@@ -49,7 +49,7 @@ const PostCard = ({ post }: { post: any }) => {
         <View className="flex flex-row justify-start items-center gap-3">
           <AdvancedImage
             cldImg={avatar}
-            className="w-12 aspect-square rounded-full"
+            className="w-12 aspect-square rounded-full p-2 border-gradient"
           />
           <Text className="text-black font-bold">{post.user.username}</Text>
         </View>
